@@ -50,6 +50,37 @@ class Domain {
     protected $workerIdentity = 'worker';
 
     /**
+     * @var string
+     */
+    protected $executionStartToCloseTimeout = "1800";
+    
+    /**
+     * @var string
+     */
+    protected $taskStartToCloseTimeout = "600";
+    
+    /**
+     * @var string
+     */
+    protected $scheduleToCloseTimeout = "900";
+   
+    /**
+     * @var string
+     */
+    protected $scheduleToStartTimeout = "300";
+    
+    /**
+     * @var string
+     */
+    protected $startToCloseTimeout = "600";
+   
+    /**
+     * @var string
+     */
+    protected $heartbeatTimeout = "120";
+
+
+    /**
      *
      */
     protected function configure() {
@@ -259,6 +290,90 @@ class Domain {
     }
 
     /**
+     * @param $executionStartToCloseTimeout
+     */
+    public function setExecutionStartToCloseTimeout($executionStartToCloseTimeout) {
+        $this->executionStartToCloseTimeout = $executionStartToCloseTimeout;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExecutionStartToCloseTimeout() {
+        return $this->executionStartToCloseTimeout;
+    }
+
+    /**
+     * @param $taskStartToCloseTimeout
+     */
+    public function setTaskStartToCloseTimeout($taskStartToCloseTimeout) {
+        $this->taskStartToCloseTimeout = $taskStartToCloseTimeout;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTaskStartToCloseTimeout() {
+        return $this->taskStartToCloseTimeout;
+    }
+
+     /**
+     * @param $scheduleToCloseTimeout
+     */
+    public function setScheduleToCloseTimeout($scheduleToCloseTimeout) {
+        $this->scheduleToCloseTimeout = $scheduleToCloseTimeout;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScheduleToCloseTimeout() {
+        return $this->scheduleToCloseTimeout;
+    }
+
+    /**
+     * @param $scheduleToStartTimeout
+     */
+    public function setScheduleToStartTimeout($scheduleToStartTimeout) {
+        $this->scheduleToStartTimeout = $scheduleToStartTimeout;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScheduleToStartTimeout() {
+        return $this->scheduleToStartTimeout;
+    }
+
+     /**
+     * @param $startToCloseTimeout
+     */
+    public function setStartToCloseTimeout($startToCloseTimeout) {
+        $this->startToCloseTimeout = $startToCloseTimeout;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStartToCloseTimeout() {
+        return $this->startToCloseTimeout;
+    }
+
+    /**
+     * @param $heartbeatTimeout
+     */
+    public function setHeartbeatTimeout($heartbeatTimeout) {
+        $this->heartbeatTimeout = $heartbeatTimeout;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHeartbeatTimeout() {
+        return $this->heartbeatTimeout;
+    }
+
+    /**
      * @param $workflowName
      * @param null $input
      * @return Model
@@ -274,8 +389,8 @@ class Domain {
                 "version" => $workflow->getVersion()),
             "taskList" => array("name" => $this->getTaskList()),
             "input" => $input,
-            "executionStartToCloseTimeout" => "1800",
-            "taskStartToCloseTimeout" => "600",
+            "executionStartToCloseTimeout" => $this->getExecutionStartToCloseTimeout(),
+            "taskStartToCloseTimeout" => $this->getTaskStartToCloseTimeout(),
             "childPolicy" => "TERMINATE"));
         return $result;
     }
@@ -410,11 +525,11 @@ class Domain {
                         ),
                         'activityId' => $item->getName() . time(),
                         'input' => $lastEventResult,
-                        'scheduleToCloseTimeout' => '900',
+                        'scheduleToCloseTimeout' => $this->getScheduleToCloseTimeout(),
                         'taskList' => array('name' => $this->getTaskList()),
-                        'scheduleToStartTimeout' => '300',
-                        'startToCloseTimeout' => '600',
-                        'heartbeatTimeout' => '120')
+                        'scheduleToStartTimeout' => $this->getScheduleToStartTimeout(),
+                        'startToCloseTimeout' => $this->getStartToCloseTimeout(),
+                        'heartbeatTimeout' => $this->getHeartbeatTimeout())
                 );
                 break;
 
@@ -424,10 +539,10 @@ class Domain {
                     'startChildWorkflowExecutionDecisionAttributes' => array(
                         'childPolicy' => 'TERMINATE',
                         'control' => $item->getId(),
-                        'executionStartToCloseTimeout' => '1800',
+                        'executionStartToCloseTimeout' => $this->getExecutionStartToCloseTimeout(),
                         'input' => $lastEventResult,
                         'taskList' => array('name' => $this->getTaskList()),
-                        "taskStartToCloseTimeout" => "600",
+                        "taskStartToCloseTimeout" => $this->getTaskStartToCloseTimeout(),
                         "workflowId" => microtime(),
                         "workflowType" => array(
                             "name" => $item->getName(),
