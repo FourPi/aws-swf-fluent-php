@@ -8,7 +8,7 @@ use Aws\Swf\Enum;
  * Class Workflow
  * @package Aws\Swf\Fluent
  */
-class Workflow implements WorkflowItem {
+class Workflow extends WorkflowItem {
     const EXECUTE_DECISION_WORKFLOW_TASK_DECISION = 'executeDecisionWorkflowTaskDecision';
     const WORKFLOW_ITEM_COMPLETED = 'workflowItemCompleted';
     const WORKFLOW_ITEM_STARTED = 'workflowItemStarted';

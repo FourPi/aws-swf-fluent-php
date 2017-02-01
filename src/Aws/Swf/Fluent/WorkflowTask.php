@@ -6,7 +6,7 @@ namespace Aws\Swf\Fluent;
  * Class WorkflowTask
  * @package Aws\Swf\Fluent
  */
-class WorkflowTask implements WorkflowItem {
+class WorkflowTask extends WorkflowItem {
 
     const ACTIVITY_TYPE = 'activity';
     const CHILD_WORKFLOW_TYPE = 'childWorkflow';
