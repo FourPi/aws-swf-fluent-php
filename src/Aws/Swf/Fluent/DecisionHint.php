@@ -2,6 +2,9 @@
 
 namespace Aws\Swf\Fluent;
 
+
+use Aws\Swf\Fluent\Enum;
+
 /**
  * Class DecisionHint
  * @package Aws\Swf\Fluent
@@ -89,14 +92,14 @@ class DecisionHint {
         $event = $this->getLastEvent();
         if ($event) {
             switch ($event['eventType']) {
-                case \Aws\Swf\Enum\EventType::CHILD_WORKFLOW_EXECUTION_COMPLETED:
-                    $result = array_key_exists('result', $event['childWorkflowExecutionCompletedEventAttributes']) ? $event['childWorkflowExecutionCompletedEventAttributes']['result'] : null;
+                case Enum\EventType::CHILD_WORKFLOW_EXECUTION_COMPLETED:
+                    $result = $event['childWorkflowExecutionCompletedEventAttributes']['result'];
                     break;
-                case \Aws\Swf\Enum\EventType::ACTIVITY_TASK_COMPLETED:
-                    $result = array_key_exists('result', $event['activityTaskCompletedEventAttributes']) ? $event['activityTaskCompletedEventAttributes']['result'] : null;
+                case Enum\EventType::ACTIVITY_TASK_COMPLETED:
+                    $result = $event['activityTaskCompletedEventAttributes']['result'];
                     break;
-                case \Aws\Swf\Enum\EventType::WORKFLOW_EXECUTION_STARTED:
-                    $result = array_key_exists('input', $event['workflowExecutionStartedEventAttributes']) ? $event['workflowExecutionStartedEventAttributes']['input'] : null;
+                case Enum\EventType::WORKFLOW_EXECUTION_STARTED:
+                    $result = $event['workflowExecutionStartedEventAttributes']['input'];
                     break;
             }
         }

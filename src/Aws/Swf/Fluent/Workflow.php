@@ -2,7 +2,7 @@
 
 namespace Aws\Swf\Fluent;
 
-use Aws\Swf\Enum;
+use Aws\Swf\Fluent\Enum;
 
 /**
  * Class Workflow
@@ -132,7 +132,7 @@ class Workflow extends WorkflowItem {
      * @throws Exception
      */
     public function split($options = array()) {
-        throw new Exception('Not supported');
+        throw new \Exception('Not supported');
     }
 
     /**

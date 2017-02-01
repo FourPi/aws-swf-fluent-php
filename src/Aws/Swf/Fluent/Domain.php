@@ -2,6 +2,8 @@
 
 namespace Aws\Swf\Fluent;
 
+use Aws\Swf\Fluent\Enum;
+
 /**
  * Class Domain
  * @package Aws\Swf\Fluent
@@ -111,7 +113,7 @@ class Domain {
                 $this->registerActivityTypes();
 
             }
-            catch (Aws\Swf\Exception\TypeAlreadyExistsException $e) {
+            catch (\Exception $e) {
                 // ignore registration in progress concurrency
             }
 
@@ -127,7 +129,7 @@ class Domain {
         try {
             $this->getSwfClient()->describeDomain(array('name' => $this->getDomainName()));
         }
-        catch (Aws\Swf\Exception\UnknownResourceException $e) {
+        catch (\Exception $e) {
             $isDomainRegistered = false;
         }
 
@@ -210,7 +212,7 @@ class Domain {
      */
     public function getSwfClient() {
         if (is_null($this->swfClient)) {
-            throw new Exception('swf client not set');
+            throw new \Exception('swf client not set');
         }
         return $this->swfClient;
     }
@@ -379,6 +381,7 @@ class Domain {
      * @return Model
      */
     public function startWorkflowExecution($workflowName, $input = null, $skipRegistration = false) {
+        var_dump($input);
         $this->lazyInitialization($skipRegistration);
         $workflow = $this->getWorkflow($workflowName);
         $result = $this->getSwfClient()->startWorkflowExecution(array(
@@ -388,7 +391,7 @@ class Domain {
                 "name" => $workflow->getName(),
                 "version" => $workflow->getVersion()),
             "taskList" => array("name" => $this->getTaskList()),
-            "input" => $input,
+            "input" => (string)$input,
             "executionStartToCloseTimeout" => $this->getExecutionStartToCloseTimeout(),
             "taskStartToCloseTimeout" => $this->getTaskStartToCloseTimeout(),
             "childPolicy" => "TERMINATE"));
@@ -433,13 +436,16 @@ class Domain {
             if ($activityTaskData['taskToken']) {
                 try {
                     $result = $this->processActivityTask($activityTaskData);
+
                     $this->getSwfClient()->respondActivityTaskCompleted(array(
                         'taskToken' => $activityTaskData['taskToken'],
-                        'result' => $result
+                        'result' => (string)$result
                     ));
+
+                   
                 }
-                catch (Exception $e) {
-                    return $this->getSwfClient()->respondActivityTaskFailed(array(
+                catch (\Exception $e) {
+                    $this->getSwfClient()->respondActivityTaskFailed(array(
                         'taskToken' => $activityTaskData['taskToken'],
                         'details' => $e->getTraceAsString(),
                         'reason' => $e->getMessage()
@@ -467,10 +473,9 @@ class Domain {
         if (is_null($object)) {
             $object = $this;
         }
-
-        // execute activity
+       
         $result = call_user_func_array(array($object, $methodName), array($activityContext));
-
+                
         return $result;
     }
 
@@ -490,8 +495,8 @@ class Domain {
             $decisionContext->loadReversedEventHistory($decisionTaskData['events']);
             $decisionHint = $decisionContext->getDecisionHint();
         }
-        catch (Exception $e) {
-            $decisionHint->setDecisionType(\Aws\Swf\Enum\DecisionType::FAIL_WORKFLOW_EXECUTION);
+        catch (\Exception $e) {
+            $decisionHint->setDecisionType(Enum\DecisionType::FAIL_WORKFLOW_EXECUTION);
             $decisionHint->setLastException($e);
         }
 
@@ -514,9 +519,9 @@ class Domain {
                 // no operation.
                 break;
 
-            case \Aws\Swf\Enum\DecisionType::SCHEDULE_ACTIVITY_TASK:
+            case Enum\DecisionType::SCHEDULE_ACTIVITY_TASK:
                 $decisions[] = array(
-                    'decisionType' => \Aws\Swf\Enum\DecisionType::SCHEDULE_ACTIVITY_TASK,
+                    'decisionType' => Enum\DecisionType::SCHEDULE_ACTIVITY_TASK,
                     'scheduleActivityTaskDecisionAttributes' => array(
                         'control' => $item->getId(),
                         'activityType' => array(
@@ -524,7 +529,7 @@ class Domain {
                             'version' => $item->getVersion()
                         ),
                         'activityId' => $item->getName() . time(),
-                        'input' => $lastEventResult,
+                        'input' => (string)$lastEventResult,
                         'scheduleToCloseTimeout' => $this->getScheduleToCloseTimeout(),
                         'taskList' => array('name' => $this->getTaskList()),
                         'scheduleToStartTimeout' => $this->getScheduleToStartTimeout(),
@@ -533,14 +538,14 @@ class Domain {
                 );
                 break;
 
-            case \Aws\Swf\Enum\DecisionType::START_CHILD_WORKFLOW_EXECUTION:
+            case Enum\DecisionType::START_CHILD_WORKFLOW_EXECUTION:
                 $decisions[] = array(
-                    'decisionType' => \Aws\Swf\Enum\DecisionType::START_CHILD_WORKFLOW_EXECUTION,
+                    'decisionType' => Enum\DecisionType::START_CHILD_WORKFLOW_EXECUTION,
                     'startChildWorkflowExecutionDecisionAttributes' => array(
                         'childPolicy' => 'TERMINATE',
                         'control' => $item->getId(),
                         'executionStartToCloseTimeout' => $this->getExecutionStartToCloseTimeout(),
-                        'input' => $lastEventResult,
+                        'input' => (string)$lastEventResult,
                         'taskList' => array('name' => $this->getTaskList()),
                         "taskStartToCloseTimeout" => $this->getTaskStartToCloseTimeout(),
                         "workflowId" => microtime(),
@@ -550,14 +555,14 @@ class Domain {
                     ));
                 break;
 
-            case \Aws\Swf\Enum\DecisionType::COMPLETE_WORKFLOW_EXECUTION:
+            case Enum\DecisionType::COMPLETE_WORKFLOW_EXECUTION:
                 $decisions[] = array(
-                    'decisionType' => \Aws\Swf\Enum\DecisionType::COMPLETE_WORKFLOW_EXECUTION,
+                    'decisionType' => Enum\DecisionType::COMPLETE_WORKFLOW_EXECUTION,
                     'completeWorkflowExecutionDecisionAttributes' => array(
                         'result' => $lastEventResult));
                 break;
 
-            case \Aws\Swf\Enum\DecisionType::FAIL_WORKFLOW_EXECUTION:
+            case Enum\DecisionType::FAIL_WORKFLOW_EXECUTION:
             default:
                 $details = 'error';
                 $reason = 'error';
@@ -568,7 +573,7 @@ class Domain {
                 }
 
                 $decisions = array(array(
-                    'decisionType' => \Aws\Swf\Enum\DecisionType::FAIL_WORKFLOW_EXECUTION,
+                    'decisionType' => Enum\DecisionType::FAIL_WORKFLOW_EXECUTION,
                     'failWorkflowExecutionDecisionAttributes' => array(
                         'details' => $details,
                         'reason' => $reason)));

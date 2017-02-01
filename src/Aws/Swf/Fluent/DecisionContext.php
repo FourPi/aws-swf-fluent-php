@@ -2,7 +2,7 @@
 
 namespace Aws\Swf\Fluent;
 
-use Aws\Swf\Enum;
+use Aws\Swf\Fluent\Enum;
 
 /**
  * Class DecisionContext
@@ -52,7 +52,7 @@ class DecisionContext {
      */
     public function getWorkflow() {
         if (is_null($this->workflow)) {
-            throw new Exception('Current workflow not set');
+            throw new \Exception('Current workflow not set');
         }
         return $this->workflow;
     }
@@ -198,7 +198,7 @@ class DecisionContext {
         try {
             call_user_func_array(array($object, $decisionItem->getName()), array($this, $decisionHint));
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             $decisionHint->setLastException($e);
             $decisionHint->setItem($this->getWorkflow());
             $decisionHint->setDecisionType(Enum\DecisionType::FAIL_WORKFLOW_EXECUTION);
