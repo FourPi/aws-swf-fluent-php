@@ -381,7 +381,7 @@ class Domain {
      * @return Model
      */
     public function startWorkflowExecution($workflowName, $input = null, $skipRegistration = false) {
-        var_dump($input);
+        //var_dump($input);
         $this->lazyInitialization($skipRegistration);
         $workflow = $this->getWorkflow($workflowName);
         $result = $this->getSwfClient()->startWorkflowExecution(array(
