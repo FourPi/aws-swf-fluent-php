@@ -259,9 +259,10 @@ class Domain {
      * @param array $options
      * @return Workflow
      */
-    public function addWorkflow($workflowName, $options = array()) {
+    public function addWorkflow($workflowName, $version, $options = array()) {
         $workflow = new Workflow($workflowName, $options);
         $this->workflows[$workflowName] = $workflow;
+        $workflow->setVersion($version);
         return $workflow;
     }
 

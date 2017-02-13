@@ -142,7 +142,8 @@ class Workflow extends WorkflowItem {
      */
     public function to($uri, $options = array()) {
         $task = new WorkflowTask($uri, $options);
-
+        $task->setVersion($this->version);
+        
         switch ($task->getType()) {
             case WorkflowTask::ACTIVITY_TYPE:
                 $this->toActivity($task);
