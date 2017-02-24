@@ -33,7 +33,11 @@ class Workflow extends WorkflowItem {
         Enum\EventType::ACTIVITY_TASK_FAILED,
         Enum\EventType::START_CHILD_WORKFLOW_EXECUTION_INITIATED,
         Enum\EventType::CHILD_WORKFLOW_EXECUTION_COMPLETED,
-        Enum\EventType::CHILD_WORKFLOW_EXECUTION_FAILED,
+        //Enum\EventType::TIMER_STARTED,
+        //Enum\EventType::START_TIMER_FAILED,
+        Enum\EventType::TIMER_FIRED,
+        //Enum\EventType::TIMER_CANCELED,
+        //Enum\EventType::CANCEL_TIMER_FAILED,
     );
 
     /**

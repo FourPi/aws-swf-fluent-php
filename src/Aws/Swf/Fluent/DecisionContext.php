@@ -117,6 +117,49 @@ class DecisionContext {
 
         $workflowDecisionHint = null;
         switch ($lastEvent['eventType']) {
+
+            case Enum\EventType::TIMER_STARTED:
+                // TODO: ???
+                break;
+
+            case Enum\EventType::START_TIMER_FAILED:
+                // TODO: ???
+                break;
+
+               
+            case Enum\EventType::TIMER_FIRED:
+
+                $startedEvent = $this->getEvent($lastEvent['timerFiredEventAttributes']['startedEventId']);
+             
+
+                $itemName = $startedEvent['timerStartedEventAttributes']['control'];
+                //$this->getEvent($lastEvent['timerFiredEventAttributes']['startedEventId']);
+                $item = $this->getDomain()->getActivity($itemName);
+                //echo "Task:\n";
+                echo "itemname plz - $itemName\n";
+                var_dump($item);
+                $workflowDecisionHint = new DecisionHint();
+
+                $workflowDecisionHint->setDecisionType(Enum\DecisionType::SCHEDULE_ACTIVITY_TASK);
+                $workflowDecisionHint->setItem($item);
+
+                //$workflowDecisionHint->setDecisionType(Enum\DecisionType::SCHEDULE_ACTIVITY_TASK);
+                //$workflowDecisionHint->setItem($item);
+
+                //:
+
+                break;
+
+            
+            case Enum\EventType::TIMER_FIRED:
+                // TODO: ???
+                break;
+
+            case Enum\EventType::CANCEL_TIMER_FAILED:
+                // TODO: ???
+                break;
+
+
             case Enum\EventType::WORKFLOW_EXECUTION_STARTED:
                 $item = $this->getWorkflow();
                 $workflowDecisionHint = $this->getWorkflow()->getDecisionHint($item, Enum\EventType::WORKFLOW_EXECUTION_STARTED);
@@ -149,6 +192,7 @@ class DecisionContext {
                 $item = $this->getWorkflow()->getTask($taskId);
                 $workflowDecisionHint = $this->getWorkflow()->getDecisionHint($item, Enum\EventType::ACTIVITY_TASK_FAILED);
                 break;
+            
 
             case Enum\EventType::START_CHILD_WORKFLOW_EXECUTION_INITIATED:
             case Enum\EventType::ACTIVITY_TASK_SCHEDULED:

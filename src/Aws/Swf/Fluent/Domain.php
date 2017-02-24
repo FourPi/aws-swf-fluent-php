@@ -382,7 +382,7 @@ class Domain {
      * @return Model
      */
     public function startWorkflowExecution($workflowName, $input = null, $skipRegistration = false) {
-        //var_dump($input);
+
         $this->lazyInitialization($skipRegistration);
         $workflow = $this->getWorkflow($workflowName);
         $result = $this->getSwfClient()->startWorkflowExecution(array(
@@ -515,10 +515,26 @@ class Domain {
         $lastEventResult = $decisionHint->getLastEventResult();
         $decisions = array();
 
+        echo "decisionType: $decisionType\n";
+
         switch ($decisionType) {
             case Workflow::NOOP:
                 // no operation.
                 break;
+
+            
+            case Enum\DecisionType::START_TIMER:
+
+                $decisions[] = array(
+                    'decisionType' => Enum\DecisionType::START_TIMER,
+                    'startTimerDecisionAttributes' => array(
+                        'timerId' => $item->getId(),
+                        'control' => $item->getName(), //OPTIONAL DATA,
+                        'startToFireTimeout' => (string)5 //DURATION TO WAIT IN SECONDS
+                    )
+                );
+
+                break; 
 
             case Enum\DecisionType::SCHEDULE_ACTIVITY_TASK:
                 $decisions[] = array(
