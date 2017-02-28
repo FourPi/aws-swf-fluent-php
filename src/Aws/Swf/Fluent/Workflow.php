@@ -128,7 +128,7 @@ class Workflow extends WorkflowItem {
      * @return null
      */
     public function getId() {
-        return $this->getName();
+        return $this->getName() . '_' . $this->getVersion();
     }
 
     /**

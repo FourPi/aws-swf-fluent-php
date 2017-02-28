@@ -60,7 +60,7 @@ class WorkflowTask extends WorkflowItem {
      *
      */
     public function getId() {
-        return $this->getType() . '_' . $this->getName();
+        return $this->getType() . '_' . $this->getName() . '_' . $this->getVersion();
     }
 
     /**
