@@ -399,6 +399,33 @@ class Domain {
         return $result;
     }
 
+    public function listEvents($workflowId, $runId)
+    {
+        try
+        {
+            $result = $this->getSwfClient()->getWorkflowExecutionHistory([
+                'domain' => $this->getDomainName(), // REQUIRED
+                'execution' => [ // REQUIRED
+                    'runId' => $runId, // REQUIRED
+                    'workflowId' => $workflowId, // REQUIRED
+                ],
+                //'maximumPageSize' => <integer>,
+                //'nextPageToken' => '<string>',
+                'reverseOrder' => false,
+            ]);
+            return $result['events'];
+        }
+        catch (\Exception $err)
+        {
+            echo $err->getMessage();
+        }
+
+        throw new \Exception('Could not list events.');
+        
+        //return array();
+
+    }
+
     /**
      *
      */
