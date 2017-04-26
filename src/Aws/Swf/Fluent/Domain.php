@@ -557,7 +557,7 @@ class Domain {
                     'startTimerDecisionAttributes' => array(
                         'timerId' => $item->getId(),
                         'control' => $item->getName(), //OPTIONAL DATA,
-                        'startToFireTimeout' => (string)5 //DURATION TO WAIT IN SECONDS
+                        'startToFireTimeout' => $decisionHint->getTimerDuration() //DURATION TO WAIT IN SECONDS
                     )
                 );
 

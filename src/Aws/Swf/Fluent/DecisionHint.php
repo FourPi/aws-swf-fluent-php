@@ -28,6 +28,12 @@ class DecisionHint {
      */
     protected $lastException = null;
 
+
+    /**
+     * @var null
+     */
+    protected $timerDuration = '5';
+
     /**
      * @param null $decisionType
      */
@@ -84,6 +90,8 @@ class DecisionHint {
         return $this->lastException;
     }
 
+    
+
     /**
      * @return null
      */
@@ -104,5 +112,15 @@ class DecisionHint {
             }
         }
         return $result;
+    }
+
+    public function setTimerDuration($timerDuration)
+    {
+        $this->timerDuration = (string)$timerDuration;
+    }
+
+    public function getTimerDuration()
+    {
+        return $this->timerDuration;
     }
 }
