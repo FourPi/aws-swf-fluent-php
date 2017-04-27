@@ -432,6 +432,11 @@ class Domain {
     public function pollForDecisionTask() {
         $this->lazyInitialization();
         while (true) {
+
+            //echo "#######################################\n";
+            //echo "pollForDecisionTask\n";
+            //echo "#######################################\n";
+
             $decisionTaskData = $this->getSwfClient()->pollForDecisionTask(array(
                 'domain' => $this->getDomainName(),
                 'taskList' => array('name' => $this->getTaskList()),
@@ -455,6 +460,12 @@ class Domain {
     public function pollForActivityTask() {
         $this->lazyInitialization();
         while (true) {
+
+            //echo "#######################################\n";
+            //echo "pollForActivityTask\n";
+            //echo "#######################################\n";
+
+
             $activityTaskData = $this->getSwfClient()->pollForActivityTask(array(
                 'domain' => $this->getDomainName(),
                 'taskList' => array('name' => $this->getTaskList()),
@@ -543,6 +554,8 @@ class Domain {
         $decisions = array();
 
         echo "decisionType: $decisionType\n";
+        //var_dump($decisionHint);
+
 
         switch ($decisionType) {
             case Workflow::NOOP:
