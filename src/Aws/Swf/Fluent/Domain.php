@@ -431,6 +431,11 @@ class Domain {
      */
     public function pollForDecisionTask() {
         $this->lazyInitialization();
+
+
+        $fp = fopen('php://stdin', 'r');
+        stream_set_blocking($fp, false);
+
         while (true) {
 
             //echo "#######################################\n";
@@ -451,7 +456,18 @@ class Domain {
                     'decisions' => $decisions
                 ));
             }
+
+            if (($line = fgets($fp)) !== false)
+            {
+                if (strpos($line, 'q') !== false)
+                {
+                    echo "Shutting down\n";
+                    break;
+                }
+            }
         }
+
+        fclose($fp);
     }
 
     /**
@@ -459,7 +475,12 @@ class Domain {
      */
     public function pollForActivityTask() {
         $this->lazyInitialization();
+
+        $fp = fopen('php://stdin', 'r');
+        stream_set_blocking($fp, false);
+
         while (true) {
+
 
             //echo "#######################################\n";
             //echo "pollForActivityTask\n";
@@ -491,7 +512,18 @@ class Domain {
                     ));
                 }
             }
+
+            if (($line = fgets($fp)) !== false)
+            {
+                if (strpos($line, 'q') !== false)
+                {
+                    echo "Shutting down\n";
+                    break;
+                }
+            }
         }
+
+        fclose($fp);
     }
 
     /**
