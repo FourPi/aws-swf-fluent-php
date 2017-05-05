@@ -588,7 +588,9 @@ class Domain {
         $lastEventResult = $decisionHint->getLastEventResult();
         $decisions = array();
 
-        echo "decisionType: $decisionType\n";
+        //echo "decisionType: $decisionType\n";
+        //echo "lastEvent: ".print_r($lastEvent, true)."\n";
+        //echo "lastEventResult: $lastEventResult\n";
         //var_dump($decisionHint);
 
 

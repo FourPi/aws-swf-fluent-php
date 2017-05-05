@@ -136,18 +136,10 @@ class DecisionContext {
                 //$this->getEvent($lastEvent['timerFiredEventAttributes']['startedEventId']);
                 $item = $this->getDomain()->getActivity($itemName);
                 //echo "Task:\n";
-                echo "itemname plz - $itemName\n";
-                var_dump($item);
+                echo "itemname plz - $itemName\n";                
                 $workflowDecisionHint = new DecisionHint();
-
                 $workflowDecisionHint->setDecisionType(Enum\DecisionType::SCHEDULE_ACTIVITY_TASK);
                 $workflowDecisionHint->setItem($item);
-
-                //$workflowDecisionHint->setDecisionType(Enum\DecisionType::SCHEDULE_ACTIVITY_TASK);
-                //$workflowDecisionHint->setItem($item);
-
-                //:
-
                 break;
 
             
