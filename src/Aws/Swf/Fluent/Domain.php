@@ -381,13 +381,16 @@ class Domain {
      * @param null $input
      * @return Model
      */
-    public function startWorkflowExecution($workflowName, $input = null, $skipRegistration = false) {
+    public function startWorkflowExecution($workflowName, $input = null, $skipRegistration = false, $workflowId = null) {
+
+        if ($workflowId == null)
+            $workflowId = (string)microtime();
 
         $this->lazyInitialization($skipRegistration);
         $workflow = $this->getWorkflow($workflowName);
         $result = $this->getSwfClient()->startWorkflowExecution(array(
             "domain" => $this->getDomainName(),
-            "workflowId" => microtime(),
+            "workflowId" => $workflowId,
             "workflowType" => array(
                 "name" => $workflow->getName(),
                 "version" => $workflow->getVersion()),
