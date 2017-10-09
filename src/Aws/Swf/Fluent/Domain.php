@@ -106,7 +106,7 @@ class Domain {
      *
      */
     public function register() {
-        if (!$this->isRegistered) {
+        if (!$this->isRegistered) {            
             try {
                 $this->registerDomain();
                 $this->registerWorkflowTypes();
@@ -136,7 +136,7 @@ class Domain {
         if (!$isDomainRegistered) {
             $this->getSwfClient()->registerDomain(array(
                 'name' => $this->getDomainName(),
-                'workflowExecutionRetentionPeriodInDays' => $this->getWorkflowExecutionRetentionPeriodInDays()
+                'workflowExecutionRetentionPeriodInDays' => (string)$this->getWorkflowExecutionRetentionPeriodInDays()
             ));
         }
     }
