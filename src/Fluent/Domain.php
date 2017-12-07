@@ -1,12 +1,12 @@
 <?php
 
-namespace Aws\Swf\Fluent;
+namespace Fluent;
 
-use Aws\Swf\Fluent\Enum;
+use Fluent\Enum;
 
 /**
  * Class Domain
- * @package Aws\Swf\Fluent
+ * @package\Aws\Swf\Fluent
  */
 class Domain {
     /* @var $swfClient \Aws\Swf\SwfClient */

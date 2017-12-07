@@ -1,8 +1,8 @@
 <?php
 
-namespace Aws\Swf\Fluent\Enum;
+namespace Fluent\Enum;
 
-use Aws\Swf\Fluent;
+use Fluent;
 
 /**
  * Contains enumerable EventType values

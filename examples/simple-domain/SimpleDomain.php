@@ -5,7 +5,7 @@ require_once 'vendor/autoload.php';
 /**
  * Class SimpleDomain
  */
-class SimpleDomain extends Aws\Swf\Fluent\Domain {
+class SimpleDomain extends \Fluent\Domain {
 
     /**
      * Simple workflow domain configuration.
@@ -22,7 +22,7 @@ class SimpleDomain extends Aws\Swf\Fluent\Domain {
          * SWF client configuration can be done also outside of this method, prior to
          * startWorkflowExecution, pollForDecisionTask or pollForActivityTask calls.
          */
-        $aws = Aws\Common\Aws::factory(__DIR__ . '/aws-config.json');
+        $aws = \Aws\Common\Aws::factory(__DIR__ . '/aws-config.json');
         $this->setSwfClient($aws->get('swf'));
 
         /**
@@ -71,9 +71,9 @@ class SimpleDomain extends Aws\Swf\Fluent\Domain {
      */
     public function evaluateStepOneResult($context, $decisionHint) {
         $lastEvent = $decisionHint->getLastEvent();
-        if ($lastEvent['eventType'] == Aws\Swf\Enum\EventType::ACTIVITY_TASK_FAILED) {
+        if ($lastEvent['eventType'] == \Aws\Swf\Enum\EventType::ACTIVITY_TASK_FAILED) {
             $decisionHint->setItem($this->getActivity('stepFour'));
-            $decisionHint->setDecisionType(Aws\Swf\Enum\DecisionType::SCHEDULE_ACTIVITY_TASK);
+            $decisionHint->setDecisionType\Aws\Swf\Enum\DecisionType::SCHEDULE_ACTIVITY_TASK);
         }
     }
 

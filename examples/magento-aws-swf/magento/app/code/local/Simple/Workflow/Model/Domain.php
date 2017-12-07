@@ -5,13 +5,13 @@ require_once Mage::getBaseDir('lib') . '/composer-vendor/autoload.php';
 /**
  * Class SimpleDomain
  */
-class Simple_Workflow_Model_Domain extends Aws\Swf\Fluent\Domain {
+class Simple_Workflow_Model_Domain extends \Fluent\Domain {
 
     /**
      * Simple workflow domain configuration.
      */
     protected function configure() {
-        $aws = Aws\Swf\SwfClient::factory(array(
+        $aws = \Aws\Swf\SwfClient::factory(array(
             'key' => Mage::getStoreConfig('simple_workflow/aws/key'),
             'secret' => Mage::getStoreConfig('simple_workflow/aws/secret_key'),
             'region' => Mage::getStoreConfig('simple_workflow/aws/region')

@@ -1,10 +1,10 @@
 <?php
 
-namespace Aws\Swf\Fluent;
+namespace Fluent;
 
 /**
  * Class WorkflowItem
- * @package Aws\Swf\Fluent
+ * @package\Aws\Swf\Fluent
  */
 abstract class WorkflowItem {
     /**

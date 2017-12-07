@@ -1,12 +1,12 @@
 <?php
 
-namespace Aws\Swf\Fluent;
+namespace Fluent;
 
-use Aws\Swf\Fluent\Enum;
+use Fluent\Enum;
 
 /**
  * Class Workflow
- * @package Aws\Swf\Fluent
+ * @package\Aws\Swf\Fluent
  */
 class Workflow extends WorkflowItem {
     const EXECUTE_DECISION_WORKFLOW_TASK_DECISION = 'executeDecisionWorkflowTaskDecision';

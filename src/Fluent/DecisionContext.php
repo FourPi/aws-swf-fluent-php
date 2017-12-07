@@ -1,12 +1,12 @@
 <?php
 
-namespace Aws\Swf\Fluent;
+namespace Fluent;
 
-use Aws\Swf\Fluent\Enum;
+use Fluent\Enum;
 
 /**
  * Class DecisionContext
- * @package Aws\Swf\Fluent
+ * @package\Aws\Swf\Fluent
  */
 class DecisionContext {
     /* @var $workflow Workflow */

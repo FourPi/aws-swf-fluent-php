@@ -1,10 +1,10 @@
 <?php
 
-namespace Aws\Swf\Fluent;
+namespace Fluent;
 
 /**
  * Class ActivityContext
- * @package Aws\Swf\Fluent
+ * @package\Aws\Swf\Fluent
  */
 class ActivityContext {
     /**
