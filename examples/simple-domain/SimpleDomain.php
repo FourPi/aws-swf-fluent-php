@@ -73,7 +73,7 @@ class SimpleDomain extends \Fluent\Domain {
         $lastEvent = $decisionHint->getLastEvent();
         if ($lastEvent['eventType'] == \Aws\Swf\Enum\EventType::ACTIVITY_TASK_FAILED) {
             $decisionHint->setItem($this->getActivity('stepFour'));
-            $decisionHint->setDecisionType\Aws\Swf\Enum\DecisionType::SCHEDULE_ACTIVITY_TASK);
+            $decisionHint->setDecisionType(\Aws\Swf\Enum\DecisionType::SCHEDULE_ACTIVITY_TASK);
         }
     }
 
