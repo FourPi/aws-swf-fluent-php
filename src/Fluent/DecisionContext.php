@@ -234,7 +234,7 @@ class DecisionContext {
         try {
             call_user_func_array(array($object, $decisionItem->getName()), array($this, $decisionHint));
         }
-        catch (\Exception $e) {
+        catch (\Throwable $e) {
             $decisionHint->setLastException($e);
             $decisionHint->setItem($this->getWorkflow());
             $decisionHint->setDecisionType(Enum\DecisionType::FAIL_WORKFLOW_EXECUTION);

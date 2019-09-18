@@ -113,7 +113,7 @@ class Domain {
                 $this->registerActivityTypes();
 
             }
-            catch (\Exception $e) {
+            catch (\Throwable $e) {
                 // ignore registration in progress concurrency
             }
 
@@ -129,7 +129,7 @@ class Domain {
         try {
             $this->getSwfClient()->describeDomain(array('name' => $this->getDomainName()));
         }
-        catch (\Exception $e) {
+        catch (\Throwable $e) {
             $isDomainRegistered = false;
         }
 
@@ -418,7 +418,7 @@ class Domain {
             ]);
             return $result['events'];
         }
-        catch (\Exception $err)
+        catch (\Throwable $err)
         {
             echo $err->getMessage();
         }
@@ -507,7 +507,7 @@ class Domain {
 
                    
                 }
-                catch (\Exception $e) {
+                catch (\Throwable $e) {
                     $this->getSwfClient()->respondActivityTaskFailed(array(
                         'taskToken' => $activityTaskData['taskToken'],
                         'details' => $e->getTraceAsString(),
@@ -569,7 +569,7 @@ class Domain {
             $decisionContext->loadReversedEventHistory($decisionTaskData['events']);
             $decisionHint = $decisionContext->getDecisionHint();
         }
-        catch (\Exception $e) {
+        catch (\Throwable $e) {
             $decisionHint->setDecisionType(Enum\DecisionType::FAIL_WORKFLOW_EXECUTION);
             $decisionHint->setLastException($e);
         }
