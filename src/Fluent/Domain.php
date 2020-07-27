@@ -508,11 +508,19 @@ class Domain {
                    
                 }
                 catch (\Throwable $e) {
-                    $this->getSwfClient()->respondActivityTaskFailed(array(
-                        'taskToken' => $activityTaskData['taskToken'],
-                        'details' => $e->getTraceAsString(),
-                        'reason' => $e->getMessage()
-                    ));
+                    try
+                    {
+                        $this->getSwfClient()->respondActivityTaskFailed(array(
+                            'taskToken' => $activityTaskData['taskToken'],
+                            'details' => strlen($e->getTraceAsString()) > 32768 ? substr($e->getTraceAsString(),0,32765)."..." : $e->getTraceAsString(),
+                            'reason' => strlen($e->getMessage()) > 256 ? substr($e->getMessage(),0,253)."..." : $e->getMessage()
+                        ));
+                    }
+                    catch(\Aws\Swf\Exception\SwfException $awsException)
+                    {
+                        throw $awsException;
+                    }
+                    throw $e;
                 }
             }
 
@@ -560,6 +568,7 @@ class Domain {
     protected function processDecisionTask($decisionTaskData) {
         $workflowType = $decisionTaskData['workflowType'];
         $workflow = $this->getWorkflow($workflowType['name']);
+        $workflow->setExecutionId(@$decisionTaskData['workflowExecution']['workflowId']);
         $decisionHint = new DecisionHint();
 
         try {

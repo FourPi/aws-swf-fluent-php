@@ -109,6 +109,9 @@ class DecisionHint {
                 case Enum\EventType::WORKFLOW_EXECUTION_STARTED:
                     $result = $event['workflowExecutionStartedEventAttributes']['input'];
                     break;
+                case Enum\EventType::ACTIVITY_TASK_TIMED_OUT:
+                    $result = $event['activityTaskTimedOutEventAttributes']['startedEventId'];
+                    break;
             }
         }
         return $result;

@@ -24,6 +24,7 @@ class Workflow extends WorkflowItem {
         Enum\EventType::ACTIVITY_TASK_FAILED => self::WORKFLOW_ITEM_FAILED,
         Enum\EventType::CHILD_WORKFLOW_EXECUTION_COMPLETED => self::WORKFLOW_ITEM_COMPLETED,
         Enum\EventType::CHILD_WORKFLOW_EXECUTION_FAILED => self::WORKFLOW_ITEM_FAILED,
+        Enum\EventType::ACTIVITY_TASK_TIMED_OUT => self::WORKFLOW_ITEM_FAILED,
     );
 
     protected $knownStates = array(
@@ -38,6 +39,7 @@ class Workflow extends WorkflowItem {
         Enum\EventType::TIMER_FIRED,
         //Enum\EventType::TIMER_CANCELED,
         //Enum\EventType::CANCEL_TIMER_FAILED,
+        Enum\EventType::ACTIVITY_TASK_TIMED_OUT,
     );
 
     /**
@@ -72,6 +74,8 @@ class Workflow extends WorkflowItem {
      * @var string
      */
     protected $version = '1.0';
+
+    protected $executionId;
 
     /**
      * @param $workflowName
@@ -241,6 +245,11 @@ class Workflow extends WorkflowItem {
      */
     protected function toDecision($task) {
         $this->toActivity($task);
+
+        $this->addTransition(
+            $task, Enum\EventType::ACTIVITY_TASK_TIMED_OUT,
+            $task, self::EXECUTE_DECISION_WORKFLOW_TASK_DECISION
+        );
 
         // on last task complete, execute decision workflow task
         $this->addTransition(
@@ -416,5 +425,24 @@ class Workflow extends WorkflowItem {
      */
     protected function getLastTask() {
         return $this->lastTask;
+    }
+
+    /**
+     * Get the value of executionId
+     */ 
+    public function getExecutionId()
+    {
+        return $this->executionId;
+    }
+
+    /**
+     * Set the value of executionId
+     *
+     * @return  self
+     */ 
+    public function setExecutionId($executionId = null)
+    {
+        $this->executionId = $executionId;
+        return $this;
     }
 }
