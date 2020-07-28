@@ -54,32 +54,32 @@ class Domain {
     /**
      * @var string
      */
-    protected $executionStartToCloseTimeout = "99999";
+    protected $executionStartToCloseTimeout = "7200";
     
     /**
      * @var string
      */
-    protected $taskStartToCloseTimeout = "99999";
+    protected $taskStartToCloseTimeout = "7200";
     
     /**
      * @var string
      */
-    protected $scheduleToCloseTimeout = "99999";
+    protected $scheduleToCloseTimeout = "7200";
    
     /**
      * @var string
      */
-    protected $scheduleToStartTimeout = "99999";
+    protected $scheduleToStartTimeout = "7200";
     
     /**
      * @var string
      */
-    protected $startToCloseTimeout = "99999";
+    protected $startToCloseTimeout = "7200";
    
     /**
      * @var string
      */
-    protected $heartbeatTimeout = "99999";
+    protected $heartbeatTimeout = "7200";
 
 
     /**
