@@ -568,7 +568,7 @@ class Domain {
     protected function processDecisionTask($decisionTaskData) {
         $workflowType = $decisionTaskData['workflowType'];
         $workflow = $this->getWorkflow($workflowType['name']);
-        $workflow->setExecutionId(@$decisionTaskData['workflowExecution']['workflowId']);
+        $workflow->setExecutionId($decisionTaskData['workflowExecution']['workflowId'] ?? null);
         $decisionHint = new DecisionHint();
 
         try {
