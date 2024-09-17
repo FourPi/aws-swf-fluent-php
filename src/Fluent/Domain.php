@@ -81,6 +81,9 @@ class Domain {
      */
     protected $heartbeatTimeout = "7200";
 
+    protected $domain_is_running = true;
+
+
 
     /**
      *
@@ -376,6 +379,10 @@ class Domain {
         return $this->heartbeatTimeout;
     }
 
+    public function shutdownDomain() {
+        $this->domain_is_running = false;
+    }
+
     /**
      * @param $workflowName
      * @param null $input
@@ -439,7 +446,7 @@ class Domain {
         $fp = fopen('php://stdin', 'r');
         stream_set_blocking($fp, false);
 
-        while (true) {
+        while ($this->domain_is_running) {
 
             //echo "#######################################\n";
             //echo "pollForDecisionTask\n";
@@ -482,7 +489,7 @@ class Domain {
         $fp = fopen('php://stdin', 'r');
         stream_set_blocking($fp, false);
 
-        while (true) {
+        while ($this->domain_is_running) {
 
 
             //echo "#######################################\n";
