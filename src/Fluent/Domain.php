@@ -81,9 +81,15 @@ class Domain {
      */
     protected $heartbeatTimeout = "7200";
 
+    /**
+     * @var bool
+     */
     protected $domain_is_running = true;
-
-
+    
+    /**
+     * @var string
+     */
+    public static ?string $current_activity_id = null;
 
     /**
      *
@@ -549,6 +555,9 @@ class Domain {
      * @return array
      */
     protected function processActivityTask($activityTaskData) {
+
+        static::$current_activity_id = $activityTaskData['activityId'] ?? null;
+
         $activityType = $activityTaskData['activityType'];
         $activity = $this->getActivity($activityType['name']);
 
