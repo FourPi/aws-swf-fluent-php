@@ -89,7 +89,7 @@ class Domain {
     /**
      * @var string
      */
-    public static ?string $current_activity_id = null;
+    public static ?string $current_workflow_id = null;
 
     /**
      *
@@ -556,7 +556,7 @@ class Domain {
      */
     protected function processActivityTask($activityTaskData) {
 
-        static::$current_activity_id = $activityTaskData['activityId'] ?? null;
+        static::$current_workflow_id = $activityTaskData['workflowExecution']['workflowId'] ?? null;
 
         $activityType = $activityTaskData['activityType'];
         $activity = $this->getActivity($activityType['name']);
