@@ -57,7 +57,7 @@ class Workflow extends WorkflowItem {
      */
     protected $transitions = array();
     /**
-     * @var null
+     * @var ?WorkflowTask
      */
     protected $lastTask = null;
     /**
@@ -379,7 +379,7 @@ class Workflow extends WorkflowItem {
     }
 
     /**
-     * @param $task
+     * @param WorkflowTask $task
      */
     protected function addTask($task) {
         if (!array_key_exists($task->getType(), $this->tasksByType)) {
@@ -403,7 +403,7 @@ class Workflow extends WorkflowItem {
 
     /**
      * @param $taskId
-     * @return null
+     * @return ?WorkflowTask
      */
     public function getTask($taskId) {
         $result = null;
@@ -414,7 +414,7 @@ class Workflow extends WorkflowItem {
     }
 
     /**
-     * @param null $lastTask
+     * @param ?WorkflowTask $lastTask
      */
     protected function setLastTask($lastTask) {
         $this->lastTask = $lastTask;

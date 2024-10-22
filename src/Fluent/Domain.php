@@ -101,7 +101,7 @@ class Domain {
     /**
      *
      */
-    public function lazyInitialization($skipRegistration = false) {
+    public function lazyInitialization($skipRegistration = true) {
         if (!$this->isConfigured) {
             $this->configure();
             $this->isConfigured = true;
@@ -277,7 +277,7 @@ class Domain {
 
     /**
      * @param $workflowName
-     * @return null
+     * @return ?Workflow
      */
     public function getWorkflow($workflowName) {
         $result = null;
@@ -394,13 +394,17 @@ class Domain {
      * @param null $input
      * @return Model
      */
-    public function startWorkflowExecution($workflowName, $input = null, $skipRegistration = false, $workflowId = null) {
+    public function startWorkflowExecution($workflowName, $input = null, $skipRegistration = true, $workflowId = null) {
 
         if ($workflowId == null)
             $workflowId = (string)microtime();
 
         $this->lazyInitialization($skipRegistration);
         $workflow = $this->getWorkflow($workflowName);
+        if($workflow == null) 
+        {
+            throw new \Exception('Workflow cannot be null');
+        }
         $result = $this->getSwfClient()->startWorkflowExecution(array(
             "domain" => $this->getDomainName(),
             "workflowId" => $workflowId,
@@ -721,6 +725,7 @@ class Domain {
      */
     public function getAllActivities() {
         $activities = array();
+        /** @var Workflow $workflow */
         foreach ($this->getWorkflows() as $workflow) {
             foreach ($workflow->getTasksByType(WorkflowTask::ACTIVITY_TYPE) as $activity) {
                 $activities[$activity->getName()] = $activity;
@@ -742,7 +747,7 @@ class Domain {
 
     /**
      * @param $activityName
-     * @return null
+     * @return ?WorkflowTask
      */
     public function getActivity($activityName) {
         $result = null;
